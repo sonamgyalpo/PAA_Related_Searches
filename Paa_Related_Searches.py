@@ -8,15 +8,16 @@ import json
 import requests
 
 
-@st.experimental_singleton
-def installff():
-  os.system('sbase install geckodriver chrome')
-  os.system('ln -s /home/appuser/venv/lib/python3.7/site-packages/seleniumbase/drivers/geckodriver /home/appuser/venv/bin/geckodriver')
-
-_ = installff()
-
 from selenium import webdriver
-from selenium.webdriver import FirefoxOptions
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from webdriver_manager.firefox import GeckoDriverManager
+
+
 
 st.title("PAA and Related Searches Analyzer")
 st.caption ("View PAA's and Related Questions for a keyword")
@@ -26,13 +27,11 @@ if agree:
     ####### Scrape related searches and questions
 
     url = "https://www.google.com/search?q="+input_keyword
-    opts = FirefoxOptions()
-    opts.add_argument("--headless")
-    driver = webdriver.Firefox(options=opts)
 
-    # options = webdriver.ChromeOptions() 
-    # options.add_argument('--headless') 
-    # driver = webdriver.Chrome(options=options)
+    options = webdriver.ChromeOptions() 
+    options.add_argument('--headless') 
+    service = Service(GeckoDriverManager().install())
+    driver = webdriver.Chrome(options=options,service = service)
     driver.get(url)
 
 
