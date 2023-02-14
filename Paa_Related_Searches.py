@@ -1,5 +1,5 @@
 import streamlit as st
-import os
+import os,sys
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import pandas as pd
@@ -7,18 +7,32 @@ import plotly.express as px
 import json
 import requests
 
+
+@st.experimental_singleton
+def installff():
+  os.system('sbase install geckodriver')
+  os.system('ln -s /home/appuser/venv/lib/python3.7/site-packages/seleniumbase/drivers/geckodriver /home/appuser/venv/bin/geckodriver')
+
+_ = installff()
+
+from selenium import webdriver
+from selenium.webdriver import FirefoxOptions
+
 st.title("PAA and Related Searches Analyzer")
 st.caption ("View PAA's and Related Questions for a keyword")
-st.header("Enter Keyword")
 input_keyword = st.text_input('Enter Keyword')
 agree = st.checkbox('Enter keyword')
 if agree:
     ####### Scrape related searches and questions
 
     url = "https://www.google.com/search?q="+input_keyword
-    options = webdriver.ChromeOptions() 
-    options.add_argument('--headless') 
-    driver = webdriver.Chrome(options=options)
+    opts = FirefoxOptions()
+    opts.add_argument("--headless")
+    driver = webdriver.Firefox(options=opts)
+
+    # options = webdriver.ChromeOptions() 
+    # options.add_argument('--headless') 
+    # driver = webdriver.Chrome(options=options)
     driver.get(url)
 
 
