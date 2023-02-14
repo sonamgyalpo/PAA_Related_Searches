@@ -1,2 +1,4 @@
 Selenium
+firefox-esr
 plotly
+seleniumbase
