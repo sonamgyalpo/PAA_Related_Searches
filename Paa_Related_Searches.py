@@ -7,7 +7,6 @@ import plotly.express as px
 import json
 import requests
 
-
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
@@ -28,10 +27,16 @@ if agree:
 
     url = "https://www.google.com/search?q="+input_keyword
 
-    options = webdriver.ChromeOptions() 
-    options.add_argument('--headless') 
+    firefoxOptions = Options()
+    firefoxOptions.add_argument("--headless")
     service = Service(GeckoDriverManager().install())
-    driver = webdriver.Chrome(options=options,service = service)
+    driver = webdriver.Firefox(
+    options=firefoxOptions,
+    service=service)
+
+    # options = webdriver.ChromeOptions() 
+    # options.add_argument('--headless') 
+    # driver = webdriver.Chrome(options=options)
     driver.get(url)
 
 
